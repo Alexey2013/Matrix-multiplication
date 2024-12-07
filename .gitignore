@@ -1,0 +1,11 @@
+# IDE/editor specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+*.swn
+*.bak
+*.tmp
+*.temp
+*.log
+

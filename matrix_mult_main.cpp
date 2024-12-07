@@ -42,12 +42,11 @@ void matrix_mult(double * a, double * b, double * res, size_t size)
 }
 
 void matrix_mult2(double *a, double *b, double *res, size_t size) {
-    int block_size = 64; // можно настроить этот параметр в зависимости от размера кеша процессора
+    int block_size = 32;
     #pragma omp parallel for
     for (int i = 0; i < size; i += block_size) {
         for (int j = 0; j < size; j += block_size) {
             for (int k = 0; k < size; k += block_size) {
-                // Обработка блока (i, j, k)
                 for (int ii = i; ii < i + block_size && ii < size; ++ii) {
                     for (int jj = j; jj < j + block_size && jj < size; ++jj) {
                         double sum = 0.0;

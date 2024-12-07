@@ -1,0 +1,1 @@
+g++ -O2 -mavx2 -mfma -fopenmp matrix_mult_main.cpp -o matrix_mult_main.exe
