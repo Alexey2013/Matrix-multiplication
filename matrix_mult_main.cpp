@@ -3,7 +3,7 @@
 #include <iostream>
 #include <random>
 #include <cstring>
-
+#include <cstddef>
 #include <immintrin.h>
 #include <omp.h>
 #include <string.h>
@@ -60,6 +60,42 @@ void matrix_mult2(double *a, double *b, double *res, size_t size) {
         }
     }
 }
+
+// void matrix_mult2(double *a, double *b, double *res, size_t size) {
+//     const int block_size = 32;
+//     #pragma omp parallel for
+//     for (int i = 0; i < size; i += block_size) {
+//         for (int j = 0; j < size; j += block_size) {
+//             for (int k = 0; k < size; k += block_size) {
+//                 for (int ii = i; ii < i + block_size && ii < size; ++ii) {
+//                     for (int jj = j; jj < j + block_size && jj < size; ++jj) {
+//                         __m256d rres = _mm256_set1_pd(0.0); // Регистр для накопления суммы
+//                         for (int kk = k; kk < k + block_size && kk < size; kk += 4) {
+//                             // Загружаем 4 элемента из строк матрицы a и b
+//                             __m256d ra = _mm256_loadu_pd(a + ii * size + kk);
+//                             __m256d rb = _mm256_loadu_pd(b + kk * size + jj);
+//                             // Умножаем и аккумулируем
+//                             rres = _mm256_fmadd_pd(ra, rb, rres);
+//                         }
+
+//                         // Суммируем элементы из регистра rres
+//                         double sum[4];
+//                         _mm256_storeu_pd(sum, rres);
+//                         double scalar_sum = sum[0] + sum[1] + sum[2] + sum[3];
+
+//                         // Учитываем остаток, если блок не кратен 4
+//                         for (int kk = k + (block_size / 4) * 4; kk < k + block_size && kk < size; ++kk) {
+//                             scalar_sum += a[ii * size + kk] * b[kk * size + jj];
+//                         }
+
+//                         res[ii * size + jj] += scalar_sum;
+//                     }
+//                 }
+//             }
+//         }
+//     }
+// }
+
 
 // void matrix_mult_avx(double *a, double *b, double *res, size_t size) {
 //     #pragma omp parallel for
