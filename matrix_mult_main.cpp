@@ -2,7 +2,7 @@
 #include <chrono>
 #include <iostream>
 #include <random>
-#include <string>
+#include <cstring>
 
 #define MKL
 #ifdef MKL
@@ -28,11 +28,11 @@ void matrix_mult(double *a, double *b, double *res, size_t size) {
             for (int k = 0; k < size; k += block_size) {
                 for (int ii = i; ii < i + block_size && ii < size; ++ii) {
 					for (int kk = k; kk < k + block_size && kk < size; ++kk){
-                        double sum = 0.0;	
-						int minjj=std::min(j + block_size,static_cast<int>(size));
+                         double tmp = a[ii * size + kk];
+						int min_jj=std::min(j + block_size,static_cast<int>(size));
 						    #pragma omp simd
-                        for (int jj = j; jj < minjj; ++jj) {
-                            res[ii * size + jj] += a[ii * size + kk] * b[kk * size + jj];
+                        for (int jj = j; jj < min_jj; ++jj) {
+                            res[ii * size + jj] += tmp * b[kk * size + jj];
                         }
                     }
                 }
